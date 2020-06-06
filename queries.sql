@@ -193,4 +193,47 @@ from
 	tmp where rn=1
 	order by emp_no;
 	
-	
+select*from table_1;
+
+select count(emp_no), title
+into retirees_per_title
+from table_1
+group by title
+order by title;
+
+
+-- Challenge table 2
+-- Table 2 will list those employees from Table 1 who are eligible for 
+-- the mentorship program (birth date that falls between January 1, 1965
+-- and December 31, 1965
+-- Employee number, First and last name, Title, from_date and to_date
+
+select count(e.emp_no), de.dept_no
+into mentor_per_dept
+from employees e
+inner join dept_emp de
+on (e.emp_no = de.emp_no)
+where (e.birth_date between '1965-01-01' and '1965-12-31')
+and (de.to_date = '9999-01-01')
+group by de.dept_no
+order by de.dept_no; 
+-- 1549
+
+select e.emp_no, e.first_name, e.last_name, t.title, t.from_date, t.to_date
+into table_2_mentors
+from employees e
+left join titles as t
+on e.emp_no = t.emp_no
+where e.birth_date between '1965-01-01' and '1965-12-31'
+and t.to_date = '9999-01-01';
+
+select first_name, last_name, count(*)
+from table_2_mentors
+group by first_name, last_name
+having count(*)>1;
+-- None
+
+select count (emp_no)
+from dept_emp
+where to_date = '9999-01-01'
+--240124
